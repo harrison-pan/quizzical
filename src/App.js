@@ -1,10 +1,10 @@
 import { Suspense, lazy } from 'react'
 import { Routes, Route } from 'react-router-dom'
-import './Styles/App.css'
+import './styles/App.css'
 
 // https://reactjs.org/docs/code-splitting.html#route-based-code-splitting
-const Home = lazy(() => import('./Routes/Home'))
-const Questions = lazy(() => import('./Routes/Questions'))
+const Home = lazy(() => import('./routes/Home'))
+const Questions = lazy(() => import('./routes/Questions'))
 
 function App() {
   return (
