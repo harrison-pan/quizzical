@@ -1,8 +1,9 @@
 import { useDataApi } from '../api/useDataApi'
+import { decode } from 'html-entities'
 import Answers from './Answers'
 
 const Questions = () => {
-  const url = 'https://opentdb.com/api.php?amount=5&encode=base64'
+  const url = 'https://opentdb.com/api.php?amount=5'
   const [{ data, isLoading, isError }, setUrl] = useDataApi(url, [])
 
   return (
@@ -22,10 +23,10 @@ const displayQuiz = (data) => {
     return (
       <>
         <div key={index} className="question">
-          <h3>{question.question}</h3>
+          <h3>{decode(question.question)}</h3>
           <Answers
-            incorrectAnswers={question.incorrect_answers}
-            correctAnswer={question.correct_answer}
+            incorrectAnswers={decode(question.incorrect_answers)}
+            correctAnswer={decode(question.correct_answer)}
           />
         </div>
         <div className="break-line"></div>
