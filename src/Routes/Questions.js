@@ -25,7 +25,7 @@ const displayQuiz = (data) => {
         <div key={index} className="question">
           <h3>{decode(question.question)}</h3>
           <Answers
-            incorrectAnswers={decode(question.incorrect_answers)}
+            incorrectAnswers={question.incorrect_answers}
             correctAnswer={decode(question.correct_answer)}
           />
         </div>

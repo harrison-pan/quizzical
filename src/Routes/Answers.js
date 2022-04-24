@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { decode } from 'html-entities'
 
 const Answers = (props) => {
   const [answersArray, setAnswersArray] = useState(
@@ -10,7 +11,7 @@ const Answers = (props) => {
       {answersArray.map((answer, index) => {
         return (
           <div key={index} className="answer">
-            {answer}
+            {decode(answer)}
           </div>
         )
       })}
