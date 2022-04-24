@@ -7,11 +7,13 @@ import reportWebVitals from './reportWebVitals'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
-  <React.StrictMode>
-    <Router>
-      <App />
-    </Router>
-  </React.StrictMode>
+  // https://reactjs.org/docs/strict-mode.html#detecting-unexpected-side-effects
+  // https://stackoverflow.com/questions/48846289/why-is-my-react-component-is-rendering-twice
+  // <React.StrictMode>
+  <Router>
+    <App />
+  </Router>
+  // </React.StrictMode>
 )
 
 // If you want to start measuring performance in your app, pass a function
