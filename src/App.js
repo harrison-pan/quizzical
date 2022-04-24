@@ -8,14 +8,12 @@ const Questions = lazy(() => import('./routes/Questions'))
 
 function App() {
   return (
-    <div className="main-container">
-      <Suspense fallback={<div>Loading...</div>}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/questions" element={<Questions />} />
-        </Routes>
-      </Suspense>
-    </div>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/questions" element={<Questions />} />
+      </Routes>
+    </Suspense>
   )
 }
 
