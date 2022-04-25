@@ -1,10 +1,7 @@
-import { useState } from 'react'
 import { decode } from 'html-entities'
 
 const Answers = (props) => {
-  const [answersArray, setAnswersArray] = useState(
-    answers(props.incorrectAnswers, props.correctAnswer)
-  )
+  const answersArray = answers(props.incorrectAnswers, props.correctAnswer)
 
   return (
     <div className="answers">
