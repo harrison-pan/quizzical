@@ -1,6 +1,6 @@
 import { useDataApi } from '../api/useDataApi'
 import { decode } from 'html-entities'
-import Answers from './Answers'
+import Answers from '../components/Answers'
 
 const Questions = () => {
   const url = 'https://opentdb.com/api.php?amount=5'
