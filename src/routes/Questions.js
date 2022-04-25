@@ -2,6 +2,7 @@ import { useDataApi } from '../api/useDataApi'
 import { decode } from 'html-entities'
 import Answers from '../components/Answers'
 import CheckAnswers from '../components/CheckAnswers'
+import { nanoid } from 'nanoid'
 
 const Questions = () => {
   const url = 'https://opentdb.com/api.php?amount=5'
@@ -15,7 +16,7 @@ const Questions = () => {
       ) : (
         <>
           {displayQuiz(data)}
-          <CheckAnswers />
+          <CheckAnswers key={nanoid()} />
         </>
       )}
     </div>
@@ -33,6 +34,7 @@ const displayQuiz = (data) => {
         <div key={index} className="question">
           <h3>{decode(question.question)}</h3>
           <Answers
+            key={nanoid()}
             incorrectAnswers={question.incorrect_answers}
             correctAnswer={decode(question.correct_answer)}
           />

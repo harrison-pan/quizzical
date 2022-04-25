@@ -17,8 +17,7 @@ const Answers = (props) => {
 }
 
 const answers = (incorrectAnswers, correctAnswer) => {
-  const answersArray = [...incorrectAnswers]
-  answersArray.push(correctAnswer)
+  const answersArray = [...incorrectAnswers, correctAnswer]
   return answersArray.sort(() => Math.random() - 0.5)
 }
 
