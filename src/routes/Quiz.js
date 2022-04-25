@@ -54,8 +54,6 @@ const Quiz = () => {
         question.answersArr.forEach((answer) => {
           if (answer.answerId === id) {
             answer.isSelected = !answer.isSelected
-          } else {
-            answer.isSelected = false
           }
         })
       })
@@ -81,7 +79,12 @@ const Quiz = () => {
       )
     })
 
-    return <div className="quiz">{quizElement}</div>
+    return (
+      <>
+        <div className="quiz">{quizElement}</div>
+        <CheckAnswers key={nanoid()} />
+      </>
+    )
   }
 
   // display answers for each question
@@ -103,14 +106,7 @@ const Quiz = () => {
   return (
     <div className="main-container">
       {isError && <div>Something went wrong ...</div>}
-      {isLoading ? (
-        <div className="loading"></div>
-      ) : (
-        <>
-          {quiz && displayQuiz(quiz)}
-          <CheckAnswers key={nanoid()} />
-        </>
-      )}
+      {isLoading ? <div className="loading"></div> : quiz && displayQuiz(quiz)}
     </div>
   )
 }
