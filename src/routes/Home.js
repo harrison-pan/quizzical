@@ -6,7 +6,7 @@ const Home = () => {
     <div className="main-container">
       <h1>Quizzical</h1>
       <h2>A React Quiz App with Trivia API</h2>
-      <button className="btn start-quiz" onClick={() => navigate('/questions')}>
+      <button className="btn start-quiz" onClick={() => navigate('/quiz')}>
         Start quiz
       </button>
     </div>

@@ -4,14 +4,14 @@ import './styles/App.css'
 
 // https://reactjs.org/docs/code-splitting.html#route-based-code-splitting
 const Home = lazy(() => import('./routes/Home'))
-const Questions = lazy(() => import('./routes/Questions'))
+const Quiz = lazy(() => import('./routes/Quiz'))
 
 function App() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/questions" element={<Questions />} />
+        <Route path="/quiz" element={<Quiz />} />
       </Routes>
     </Suspense>
   )
