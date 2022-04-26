@@ -1,7 +1,6 @@
-import useSWRImmutable from 'swr/immutable'
-import axios from 'axios'
 import { nanoid } from 'nanoid'
 import { useQuiz } from '../hook/useQuiz'
+import { useSWRDataFetch } from '../hook/useSWRDataFetch'
 import Question from '../components/Question'
 import Answers from '../components/Answers'
 import CheckAnswers from '../components/CheckAnswers'
@@ -13,10 +12,9 @@ import CheckAnswers from '../components/CheckAnswers'
  * e.g. const [{ data, isLoading, isError }, setUrl] = useDataApi(url, [])
  * */
 const url = 'https://opentdb.com/api.php?amount=5'
-const fetcher = (url) => axios.get(url).then((res) => res.data)
 
 const Quiz = () => {
-  const { data, error } = useSWRImmutable(url, fetcher)
+  const { data, isLoading, isError } = useSWRDataFetch(url)
 
   /**
    * use custom hook: useQuiz(data)
@@ -119,8 +117,8 @@ const Quiz = () => {
    */
   return (
     <div className="main-container">
-      {error && <div>Something went wrong ...</div>}
-      {!data ? <div className="loading"></div> : quizData && displayQuiz()}
+      {isError && <div>Something went wrong ...</div>}
+      {isLoading ? <div className="loading"></div> : quizData && displayQuiz()}
     </div>
   )
 }
