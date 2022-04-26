@@ -4,6 +4,7 @@ import { useSWRDataFetch } from '../hook/useSWRDataFetch'
 import Question from '../components/Question'
 import Answers from '../components/Answers'
 import CheckAnswers from '../components/CheckAnswers'
+import { useNavigate } from 'react-router-dom'
 
 /**
  * use SWR data fetching API: https://swr.vercel.app/docs/data-fetching
@@ -14,6 +15,8 @@ import CheckAnswers from '../components/CheckAnswers'
 const url = 'https://opentdb.com/api.php?amount=5'
 
 const Quiz = () => {
+  let navigate = useNavigate()
+
   const { data, isLoading, isError } = useSWRDataFetch(url)
 
   /**
@@ -52,7 +55,8 @@ const Quiz = () => {
   const checkAnswers = () => {
     // reload page when clicking on "Play again"
     if (score !== undefined) {
-      window.location.reload()
+      // window.location.reload()
+      navigate('/')
     }
 
     let countScore = 0
