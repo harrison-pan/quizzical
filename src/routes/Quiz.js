@@ -30,14 +30,17 @@ const Quiz = () => {
   /**
    * function: toggle select answer on each question
    */
-  const selectAnswer = (id) => {
+  const selectAnswer = (questionId, answerId) => {
     const updatedQuizAnswer = quizData.map((question) => {
-      const answers = question.answersArr
-      for (let i = 0; i < answers.length; i++) {
-        const answer = answers[i]
-        if (answer.answerId === id) {
-          answer.isSelected = !answer.isSelected
-          break
+      if (question.questionId === questionId) {
+        const answers = question.answersArr
+        for (let i = 0; i < answers.length; i++) {
+          const answer = answers[i]
+          if (answer.answerId === answerId) {
+            answer.isSelected = !answer.isSelected
+          } else {
+            answer.isSelected = false
+          }
         }
       }
       return question
@@ -87,6 +90,7 @@ const Quiz = () => {
           <Question key={data.questionId} questionText={data.questionText} />
           <Answers
             key={nanoid()}
+            questionId={data.questionId}
             answers={data.answersArr}
             isAnswerCorrect={data.isAnswerCorrect}
             score={score}

@@ -9,7 +9,9 @@ const Answers = (props) => {
           {...answer}
           isAnswerCorrect={props.isAnswerCorrect}
           score={props.score}
-          toggleSelect={() => props.toggleSelect(answer.answerId)}
+          toggleSelect={() =>
+            props.toggleSelect(props.questionId, answer.answerId)
+          }
         />
       ))}
     </div>
