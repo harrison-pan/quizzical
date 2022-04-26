@@ -1,4 +1,7 @@
 import { useDataApi } from '../api/useDataApi'
+import useSWR from 'swr'
+import axios from 'axios'
+import { useQuiz } from '../hook/useQuiz'
 import Question from '../components/Question'
 import Answer from '../components/Answer'
 import CheckAnswers from '../components/CheckAnswers'
@@ -6,59 +9,38 @@ import { nanoid } from 'nanoid'
 import { useState, useEffect } from 'react'
 
 const Quiz = () => {
+  /**
+   * use SWR data fetching API: https://swr.vercel.app/docs/data-fetching
+   * Alternatively a custom hook: useDataApi is working as well
+   * e.g. const [{ data, isLoading, isError }, setUrl] = useDataApi(url, [])
+   * */
   const url = 'https://opentdb.com/api.php?amount=5'
-  const [{ data, isLoading, isError }, setUrl] = useDataApi(url, [])
-  const [quiz, setQuiz] = useState(null)
-  useEffect(() => {
-    if (data.length !== 0) {
-      const generateQuiz = () => {
-        return {
-          code: data.response_code,
-          quizData: quizData(),
-        }
-      }
+  const fetcher = (url) => axios.get(url).then((res) => res.data)
+  const { data, error } = useSWR(url, fetcher)
 
-      const quizData = () => {
-        return data.results.map((question) => {
-          const answersArray = question.incorrect_answers.map((answer) =>
-            initEachAnswer(answer, false)
-          )
-          answersArray.push(initEachAnswer(question.correct_answer, true))
-
-          return {
-            questionId: nanoid(),
-            questionText: question.question,
-            answersArr: answersArray.sort(() => Math.random() - 0.5),
-          }
-        })
-      }
-
-      const initEachAnswer = (text, isCorrect) => {
-        return {
-          answerText: text,
-          isSelected: false,
-          isCorrect: isCorrect,
-          answerId: nanoid(),
-        }
-      }
-
-      setQuiz(generateQuiz())
-    }
-  }, [data])
+  /**
+   * use custom hook: useQuiz(data)
+   * Alternatively useState and useEffect is working as well
+   * e.g.:
+   * const [quiz, setQuiz] = useState(null)
+   * useEffect(() => {}) to handle initial quiz setup
+   */
+  const [quiz, setQuiz] = useQuiz(data)
 
   // toggle select answer on each question
   const selectAnswer = (id) => {
-    setQuiz((prevState) => {
-      const newState = { ...prevState }
-      newState.quizData.forEach((question) => {
-        question.answersArr.forEach((answer) => {
-          if (answer.answerId === id) {
-            answer.isSelected = !answer.isSelected
-          }
-        })
-      })
-      return newState
+    const updatedQuizAnswer = quiz.quizData.map((question) => {
+      const answers = question.answersArr
+      for (let i = 0; i < answers.length; i++) {
+        const answer = answers[i]
+        if (answer.answerId === id) {
+          answer.isSelected = !answer.isSelected
+          break
+        }
+      }
+      return question
     })
+    setQuiz(updatedQuizAnswer)
   }
 
   // display the whole quiz
@@ -105,8 +87,8 @@ const Quiz = () => {
   // Main Quiz component
   return (
     <div className="main-container">
-      {isError && <div>Something went wrong ...</div>}
-      {isLoading ? <div className="loading"></div> : quiz && displayQuiz(quiz)}
+      {error && <div>Something went wrong ...</div>}
+      {!data ? <div className="loading"></div> : quiz && displayQuiz(quiz)}
     </div>
   )
 }
