@@ -1,33 +1,37 @@
-import useSWR from 'swr'
+import useSWRImmutable from 'swr/immutable'
 import axios from 'axios'
+import { nanoid } from 'nanoid'
 import { useQuiz } from '../hook/useQuiz'
 import Question from '../components/Question'
-import Answer from '../components/Answer'
+import Answers from '../components/Answers'
 import CheckAnswers from '../components/CheckAnswers'
-import { nanoid } from 'nanoid'
+
+/**
+ * use SWR data fetching API: https://swr.vercel.app/docs/data-fetching
+ * useSWRImmutable https://swr.vercel.app/docs/revalidation#disable-automatic-revalidations
+ * Alternatively a custom hook: useDataApi is working as well
+ * e.g. const [{ data, isLoading, isError }, setUrl] = useDataApi(url, [])
+ * */
+const url = 'https://opentdb.com/api.php?amount=5'
+const fetcher = (url) => axios.get(url).then((res) => res.data)
 
 const Quiz = () => {
-  /**
-   * use SWR data fetching API: https://swr.vercel.app/docs/data-fetching
-   * Alternatively a custom hook: useDataApi is working as well
-   * e.g. const [{ data, isLoading, isError }, setUrl] = useDataApi(url, [])
-   * */
-  const url = 'https://opentdb.com/api.php?amount=5'
-  const fetcher = (url) => axios.get(url).then((res) => res.data)
-  const { data, error } = useSWR(url, fetcher)
+  const { data, error } = useSWRImmutable(url, fetcher)
 
   /**
    * use custom hook: useQuiz(data)
    * Alternatively useState and useEffect is working as well
-   * e.g.:
+   * e.g.
    * const [quiz, setQuiz] = useState(null)
    * useEffect(() => {}) to handle initial quiz setup
    */
-  const [quiz, setQuiz] = useQuiz(data)
+  const [{ code, quizData, score }, setQuiz, setScore] = useQuiz(data)
 
-  // toggle select answer on each question
+  /**
+   * function: toggle select answer on each question
+   */
   const selectAnswer = (id) => {
-    const updatedQuizAnswer = quiz.quizData.map((question) => {
+    const updatedQuizAnswer = quizData.map((question) => {
       const answers = question.answersArr
       for (let i = 0; i < answers.length; i++) {
         const answer = answers[i]
@@ -41,52 +45,78 @@ const Quiz = () => {
     setQuiz(updatedQuizAnswer)
   }
 
-  // display the whole quiz
-  const displayQuiz = (quiz) => {
-    if (quiz.code !== 0) {
+  /**
+   * function: check answers on each question
+   */
+  const checkAnswers = () => {
+    // reload page when clicking on "Play again"
+    if (score !== undefined) {
+      window.location.reload()
+    }
+
+    let countScore = 0
+    const updatedQuizAnswer = quizData.map((question) => {
+      const answers = question.answersArr
+      let isAnswerCorrect = false
+      for (let i = 0; i < answers.length; i++) {
+        const answer = answers[i]
+        if (answer.isSelected && answer.isCorrect) {
+          isAnswerCorrect = true
+          countScore++
+          break
+        }
+      }
+      question.isAnswerCorrect = isAnswerCorrect
+      return question
+    })
+    setQuiz(updatedQuizAnswer)
+    setScore(countScore)
+  }
+
+  /**
+   * function: display the whole quiz component
+   */
+  const displayQuiz = () => {
+    if (code !== 0) {
       return <div>Something went wrong ...</div>
     }
 
-    const quizElement = quiz.quizData.map((data, index) => {
-      return (
-        <>
-          <div key={index} className="question-answers">
-            <Question key={data.questionId} questionText={data.questionText} />
-            {displayAnswers(data.answersArr)}
-          </div>
-          <div className="break-line"></div>
-        </>
-      )
-    })
+    const quizElement = quizData.map((data, index) => (
+      <>
+        <div key={index} className="question-answers">
+          <Question key={data.questionId} questionText={data.questionText} />
+          <Answers
+            key={nanoid()}
+            answers={data.answersArr}
+            isAnswerCorrect={data.isAnswerCorrect}
+            score={score}
+            toggleSelect={selectAnswer}
+          />
+        </div>
+        <div className="break-line"></div>
+      </>
+    ))
 
     return (
       <>
         <div className="quiz">{quizElement}</div>
-        <CheckAnswers key={nanoid()} />
+        <CheckAnswers
+          key={nanoid()}
+          score={score}
+          totalQuestions={quizData.length}
+          clickToCheck={() => checkAnswers()}
+        />
       </>
     )
   }
 
-  // display answers for each question
-  const displayAnswers = (answers) => {
-    return (
-      <div className="answers">
-        {answers.map((answer) => (
-          <Answer
-            key={answer.answerId}
-            {...answer}
-            toggleSelect={() => selectAnswer(answer.answerId)}
-          />
-        ))}
-      </div>
-    )
-  }
-
-  // Main Quiz component
+  /**
+   * Render Main Quiz component
+   */
   return (
     <div className="main-container">
       {error && <div>Something went wrong ...</div>}
-      {!data ? <div className="loading"></div> : quiz && displayQuiz(quiz)}
+      {!data ? <div className="loading"></div> : quizData && displayQuiz()}
     </div>
   )
 }

@@ -14,20 +14,32 @@ const quizReducer = (state, action) => {
         ...state,
         quizData: action.quizData,
       }
+    case 'UPDATE_SCORE':
+      return {
+        ...state,
+        quizData: action.quizData,
+        score: action.score,
+      }
     default:
       return state
   }
 }
 
 const useQuiz = (data) => {
+  const [quizData, updateQuizData] = useState()
+  const [score, setScore] = useState()
+
   const initialState = {
     code: 0,
-    quizData: [],
+    quizData: quizData,
+    score: score,
   }
 
-  const [quizData, updateQuizData] = useState()
   const [state, dispatch] = useReducer(quizReducer, initialState)
 
+  /**
+   * handle initial quiz state setup
+   */
   useEffect(() => {
     if (data !== undefined) {
       const generateQuizData = () => {
@@ -40,6 +52,7 @@ const useQuiz = (data) => {
           return {
             questionId: nanoid(),
             questionText: question.question,
+            isAnswerCorrect: false,
             answersArr: answersArray.sort(() => Math.random() - 0.5),
           }
         })
@@ -62,16 +75,28 @@ const useQuiz = (data) => {
     }
   }, [data])
 
+  /**
+   * handle update answer/score state
+   */
   useEffect(() => {
     if (quizData !== undefined) {
+      if (score !== undefined) {
+        dispatch({
+          type: 'UPDATE_SCORE',
+          quizData: quizData,
+          score: score,
+        })
+        return
+      }
+
       dispatch({
         type: 'UPDATE_ANSWER',
         quizData: quizData,
       })
     }
-  }, [quizData])
+  }, [quizData, score])
 
-  return [state, updateQuizData]
+  return [state, updateQuizData, setScore]
 }
 
 export { useQuiz }
