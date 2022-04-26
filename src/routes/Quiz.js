@@ -1,4 +1,3 @@
-import { useDataApi } from '../api/useDataApi'
 import useSWR from 'swr'
 import axios from 'axios'
 import { useQuiz } from '../hook/useQuiz'
@@ -6,7 +5,6 @@ import Question from '../components/Question'
 import Answer from '../components/Answer'
 import CheckAnswers from '../components/CheckAnswers'
 import { nanoid } from 'nanoid'
-import { useState, useEffect } from 'react'
 
 const Quiz = () => {
   /**
