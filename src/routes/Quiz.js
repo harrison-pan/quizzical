@@ -4,7 +4,7 @@ import { useSWRDataFetch } from '../hook/useSWRDataFetch'
 import Question from '../components/Question'
 import Answers from '../components/Answers'
 import CheckAnswers from '../components/CheckAnswers'
-import { useNavigate } from 'react-router-dom'
+import { useSearchParams, useNavigate } from 'react-router-dom'
 
 /**
  * use SWR data fetching API: https://swr.vercel.app/docs/data-fetching
@@ -12,12 +12,17 @@ import { useNavigate } from 'react-router-dom'
  * Alternatively a custom hook: useDataApi is working as well
  * e.g. const [{ data, isLoading, isError }, setUrl] = useDataApi(url, [])
  * */
-const url = 'https://opentdb.com/api.php?amount=5'
+const url = `https://opentdb.com/api.php?amount=5`
 
 const Quiz = () => {
   let navigate = useNavigate()
+  let [searchParams, setSearchParams] = useSearchParams()
+  let level = searchParams.get('difficulty')
 
-  const { data, isLoading, isError } = useSWRDataFetch(url)
+  const { data, isLoading, isError } = useSWRDataFetch(
+    url,
+    `&difficulty=${level}`
+  )
 
   /**
    * use custom hook: useQuiz(data)
@@ -52,9 +57,9 @@ const Quiz = () => {
   /**
    * function: check answers on each question
    */
-  const checkAnswers = () => {
+  const checkAnswers = (e) => {
     // reload page when clicking on "Play again"
-    if (score !== undefined) {
+    if (e.target.innerHTML === 'Play again') {
       // window.location.reload()
       navigate('/')
     }
@@ -110,7 +115,7 @@ const Quiz = () => {
           key={nanoid()}
           score={score}
           totalQuestions={quizData.length}
-          clickToCheck={() => checkAnswers()}
+          clickToCheck={(e) => checkAnswers(e)}
         />
       </>
     )
