@@ -19,7 +19,7 @@ const Quiz = () => {
   let [searchParams, setSearchParams] = useSearchParams()
   let level = searchParams.get('difficulty')
 
-  const { data, isLoading, isError } = useSWRDataFetch(
+  const { data, isLoading, isValidating, isError } = useSWRDataFetch(
     url,
     `&difficulty=${level}`
   )
@@ -37,21 +37,23 @@ const Quiz = () => {
    * function: toggle select answer on each question
    */
   const selectAnswer = (questionId, answerId) => {
-    const updatedQuizAnswer = quizData.map((question) => {
-      if (question.questionId === questionId) {
-        const answers = question.answersArr
-        for (let i = 0; i < answers.length; i++) {
-          const answer = answers[i]
-          if (answer.answerId === answerId) {
-            answer.isSelected = !answer.isSelected
-          } else {
-            answer.isSelected = false
+    if (score === undefined) {
+      const updatedQuizAnswer = quizData.map((question) => {
+        if (question.questionId === questionId) {
+          const answers = question.answersArr
+          for (let i = 0; i < answers.length; i++) {
+            const answer = answers[i]
+            if (answer.answerId === answerId) {
+              answer.isSelected = !answer.isSelected
+            } else {
+              answer.isSelected = false
+            }
           }
         }
-      }
-      return question
-    })
-    setQuiz(updatedQuizAnswer)
+        return question
+      })
+      setQuiz(updatedQuizAnswer)
+    }
   }
 
   /**
@@ -127,7 +129,11 @@ const Quiz = () => {
   return (
     <div className="main-container">
       {isError && <div>Something went wrong ...</div>}
-      {isLoading ? <div className="loading"></div> : quizData && displayQuiz()}
+      {isLoading || isValidating ? (
+        <div className="loading"></div>
+      ) : (
+        quizData && displayQuiz()
+      )}
     </div>
   )
 }

@@ -6,15 +6,20 @@ const useSWRDataFetch = (url, params) => {
 
   // The revalidateIfStale controls if SWR should revalidate when
   // it mounts and there is stale data.
-  const { data, error } = useSWR([url, params], fetcher, {
-    revalidateIfStale: true,
-    revalidateOnFocus: false,
-    revalidateOnReconnect: false,
-  })
+  const { data, error, isLoading, isValidating } = useSWR(
+    url + params,
+    fetcher,
+    {
+      revalidateIfStale: true,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+    }
+  )
 
   return {
     data: data,
-    isLoading: !error && !data,
+    isLoading: isLoading,
+    isValidating: isValidating,
     isError: error,
   }
 }
