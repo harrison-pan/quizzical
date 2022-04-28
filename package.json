@@ -8,6 +8,8 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.26.1",
     "html-entities": "^2.3.3",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.4.1",
     "nanoid": "^3.3.3",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
@@ -49,6 +51,20 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "prettier": "^2.6.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "eslint --fix",
+      "prettier --write"
     ]
   }
 }

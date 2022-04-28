@@ -1,68 +1,68 @@
-import { useState, useEffect, useReducer, useRef } from 'react'
-import axios from 'axios'
+import { useState, useEffect, useReducer, useRef } from "react";
+import axios from "axios";
 
 const dataFetchReducer = (state, action) => {
   switch (action.type) {
-    case 'FETCH_INIT':
+    case "FETCH_INIT":
       return {
         ...state,
         isLoading: true,
         isError: false,
-      }
-    case 'FETCH_SUCCESS':
+      };
+    case "FETCH_SUCCESS":
       return {
         ...state,
         isLoading: false,
         isError: false,
         data: action.payload,
-      }
-    case 'FETCH_FAILURE':
+      };
+    case "FETCH_FAILURE":
       return {
         ...state,
         isLoading: false,
         isError: true,
-      }
+      };
     default:
-      throw new Error()
+      throw new Error();
   }
-}
+};
 
 const useDataApi = (initialUrl, initialData) => {
-  const cache = useRef({})
-  const [url, setUrl] = useState(initialUrl)
+  const cache = useRef({});
+  const [url, setUrl] = useState(initialUrl);
   const [state, dispatch] = useReducer(dataFetchReducer, {
     isLoading: false,
     isError: false,
     data: initialData,
-  })
+  });
 
   useEffect(() => {
-    let didCancel = false
+    let didCancel = false;
     const fetchData = async () => {
-      dispatch({ type: 'FETCH_INIT' })
+      dispatch({ type: "FETCH_INIT" });
       if (cache.current[url]) {
-        const data = cache.current[url]
-        dispatch({ type: 'FETCH_SUCCESS', payload: data })
+        const data = cache.current[url];
+        dispatch({ type: "FETCH_SUCCESS", payload: data });
       } else {
         try {
-          const result = await axios(url)
+          const result = await axios(url);
           if (!didCancel) {
-            dispatch({ type: 'FETCH_SUCCESS', payload: result.data })
+            dispatch({ type: "FETCH_SUCCESS", payload: result.data });
           }
         } catch (error) {
           if (!didCancel) {
-            dispatch({ type: 'FETCH_FAILURE' })
+            dispatch({ type: "FETCH_FAILURE" });
           }
         }
       }
-    }
-    fetchData()
+    };
+    fetchData();
     return () => {
-      didCancel = true
-    }
-  }, [url])
+      didCancel = true;
+    };
+  }, [url]);
 
-  return [state, setUrl]
-}
+  return [state, setUrl];
+};
 
-export { useDataApi }
+export { useDataApi };

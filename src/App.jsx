@@ -1,10 +1,10 @@
-import { Suspense, lazy } from 'react'
-import { Routes, Route } from 'react-router-dom'
-import './styles/App.css'
+import { Suspense, lazy } from "react";
+import { Routes, Route } from "react-router-dom";
+import "./styles/App.css";
 
 // https://reactjs.org/docs/code-splitting.html#route-based-code-splitting
-const Home = lazy(() => import('./routes/Home'))
-const Quiz = lazy(() => import('./routes/Quiz'))
+const Home = lazy(() => import("./routes/Home"));
+const Quiz = lazy(() => import("./routes/Quiz"));
 
 function App() {
   return (
@@ -14,7 +14,7 @@ function App() {
         <Route path="/quiz" element={<Quiz />} />
       </Routes>
     </Suspense>
-  )
+  );
 }
 
-export default App
+export default App;

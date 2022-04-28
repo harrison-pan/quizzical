@@ -1,17 +1,17 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
-  let navigate = useNavigate()
-  const [formData, setFormData] = useState({ difficulty: '' })
+  let navigate = useNavigate();
+  const [formData, setFormData] = useState({ difficulty: "" });
 
   function handleSubmit(event) {
-    event.preventDefault()
+    event.preventDefault();
     // let formData = new FormData(event.currentTarget)
     // let newLevel = formData.get('difficulty')
     // if (!newLevel) return
-    const newLevel = formData.difficulty
-    navigate(`/quiz?difficulty=${newLevel}`)
+    const newLevel = formData.difficulty;
+    navigate(`/quiz?difficulty=${newLevel}`);
   }
 
   const handleChange = (event) => {
@@ -19,9 +19,9 @@ const Home = () => {
       return {
         ...preFormData,
         [event.target.name]: event.target.value,
-      }
-    })
-  }
+      };
+    });
+  };
 
   return (
     <main>
@@ -45,7 +45,7 @@ const Home = () => {
         </button>
       </form>
     </main>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

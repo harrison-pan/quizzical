@@ -14,7 +14,7 @@
 }
 
 h1 {
-  font-family: 'Karla', sans-serif;
+  font-family: "Karla", sans-serif;
   font-size: 32px;
   font-weight: bold;
   color: #293264;
@@ -24,7 +24,7 @@ h1 {
 h2,
 label,
 select {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 16px;
   font-weight: normal;
   color: #293264;
@@ -37,14 +37,14 @@ label {
 }
 
 h3 {
-  font-family: 'Karla', sans-serif;
+  font-family: "Karla", sans-serif;
   font-size: 16px;
   font-weight: normal;
   color: #293264;
 }
 
 .btn {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-weight: normal;
   color: #f5f7fb;
   background: #4d5b9e;
@@ -71,7 +71,7 @@ h3 {
 
 .loading::before {
   position: absolute;
-  content: '';
+  content: "";
   left: 0px;
   top: 0px;
   width: 100%;
@@ -114,7 +114,7 @@ h3 {
 }
 
 .answer {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-weight: normal;
   font-size: 12px;
   text-align: center;
@@ -143,7 +143,7 @@ h3 {
 }
 
 .footer .check-answer-btn {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-weight: normal;
   font-size: 14px;
   width: 120px;
@@ -163,7 +163,7 @@ h3 {
 }
 
 .footer .score-text {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-weight: bold;
   font-size: 14px;
   text-align: center;

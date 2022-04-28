@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types";
 
 const CheckAnswers = (props) => {
   return (
@@ -12,13 +12,13 @@ const CheckAnswers = (props) => {
         {props.score >= 0 ? `Play again` : `Check answers`}
       </button>
     </div>
-  )
-}
+  );
+};
 
 CheckAnswers.propTypes = {
   score: PropTypes.number.isRequired,
   totalQuestions: PropTypes.number.isRequired,
   clickToCheck: PropTypes.func.isRequired,
-}
+};
 
-export default CheckAnswers
+export default CheckAnswers;
