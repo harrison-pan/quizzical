@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types'
+
 const CheckAnswers = (props) => {
   return (
     <div className="footer">
@@ -11,6 +13,12 @@ const CheckAnswers = (props) => {
       </button>
     </div>
   )
+}
+
+CheckAnswers.propTypes = {
+  score: PropTypes.number.isRequired,
+  totalQuestions: PropTypes.number.isRequired,
+  clickToCheck: PropTypes.func.isRequired,
 }
 
 export default CheckAnswers

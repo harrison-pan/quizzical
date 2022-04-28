@@ -1,4 +1,5 @@
 import { decode } from 'html-entities'
+import PropTypes from 'prop-types'
 
 const Answer = (props) => {
   const setStyles = () => {
@@ -22,6 +23,15 @@ const Answer = (props) => {
       {decode(props.answerText)}
     </div>
   )
+}
+
+Answer.propTypes = {
+  answerText: PropTypes.string.isRequired,
+  isSelected: PropTypes.bool.isRequired,
+  isCorrect: PropTypes.bool.isRequired,
+  isAnswerCorrect: PropTypes.bool.isRequired,
+  score: PropTypes.number.isRequired,
+  toggleSelect: PropTypes.func.isRequired,
 }
 
 export default Answer

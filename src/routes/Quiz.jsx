@@ -16,7 +16,7 @@ const url = `https://opentdb.com/api.php?amount=5`
 
 const Quiz = () => {
   let navigate = useNavigate()
-  let [searchParams, setSearchParams] = useSearchParams()
+  let [searchParams] = useSearchParams()
   let level = searchParams.get('difficulty')
 
   const { data, isLoading, isValidating, isError } = useSWRDataFetch(

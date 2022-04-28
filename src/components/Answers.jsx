@@ -1,4 +1,5 @@
 import Answer from './Answer'
+import PropTypes from 'prop-types'
 
 const Answers = (props) => {
   return (
@@ -16,6 +17,14 @@ const Answers = (props) => {
       ))}
     </div>
   )
+}
+
+Answers.propTypes = {
+  answers: PropTypes.array.isRequired,
+  isAnswerCorrect: PropTypes.bool.isRequired,
+  score: PropTypes.number.isRequired,
+  toggleSelect: PropTypes.func.isRequired,
+  questionId: PropTypes.number.isRequired,
 }
 
 export default Answers
