@@ -93,9 +93,9 @@ const Quiz = () => {
       return <div>Something went wrong ...</div>;
     }
 
-    const quizElement = quizData.map((data, index) => (
-      <>
-        <div key={index} className="question-answers">
+    const quizElement = quizData.map((data) => (
+      <div key={nanoid()}>
+        <div className="question-answers">
           <Question key={data.questionId} questionText={data.questionText} />
           <Answers
             key={nanoid()}
@@ -107,7 +107,7 @@ const Quiz = () => {
           />
         </div>
         <div className="break-line"></div>
-      </>
+      </div>
     ));
 
     return (

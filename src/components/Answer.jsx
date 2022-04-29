@@ -30,7 +30,7 @@ Answer.propTypes = {
   isSelected: PropTypes.bool.isRequired,
   isCorrect: PropTypes.bool.isRequired,
   isAnswerCorrect: PropTypes.bool.isRequired,
-  score: PropTypes.number.isRequired,
+  score: PropTypes.number,
   toggleSelect: PropTypes.func.isRequired,
 };
 

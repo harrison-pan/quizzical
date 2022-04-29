@@ -22,9 +22,9 @@ const Answers = (props) => {
 Answers.propTypes = {
   answers: PropTypes.array.isRequired,
   isAnswerCorrect: PropTypes.bool.isRequired,
-  score: PropTypes.number.isRequired,
+  score: PropTypes.number,
   toggleSelect: PropTypes.func.isRequired,
-  questionId: PropTypes.number.isRequired,
+  questionId: PropTypes.string.isRequired,
 };
 
 export default Answers;

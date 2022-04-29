@@ -16,7 +16,7 @@ const CheckAnswers = (props) => {
 };
 
 CheckAnswers.propTypes = {
-  score: PropTypes.number.isRequired,
+  score: PropTypes.number,
   totalQuestions: PropTypes.number.isRequired,
   clickToCheck: PropTypes.func.isRequired,
 };
